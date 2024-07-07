@@ -20,8 +20,17 @@ router.get('/', async (req, res) => {
 
 router.get('/new', async (req, res) => {
   const ingredients = await Ingredient.find({})
+  let uniqueIngredients = []
+  let ingredientScan = {}
+  ingredients.forEach((ingredient) => {
+    if (!ingredientScan[ingredient.name]) {
+      uniqueIngredients.push(ingredient._id)
+      ingredientScan[ingredient.name] = true
+    }
+})
+const allIngredients = await Ingredient.find({_id: uniqueIngredients})
   res.render('recipes/new.ejs', {
-    ingredients: ingredients,
+      ingredients: allIngredients,
   })
 })
 
@@ -40,14 +49,11 @@ router.post('/', async (req, res) => {
 router.get("/:recipeId", async (req, res) => {
   try {
     const myRecipe = await Recipe.findById(req.params.recipeId).populate('owner')
-    const allIngredientIds = myRecipe.ingredients
-    const ingredientId = allIngredientIds.forEach((ingredient) => {
-      return ingredient._id
-    })
-    const ingredients = await Ingredient.find({ingredientId})
+    const ingredients = myRecipe.ingredients
+    const allIngredients = await Ingredient.find({_id: ingredients})
     res.render('recipes/show.ejs', {
       recipe: myRecipe,
-      ingredients: ingredients,
+      ingredients: allIngredients,
     })
   } catch (err) {
     console.log(err)
@@ -69,10 +75,19 @@ router.delete("/:recipeId", async (req, res) => {
 router.get("/:recipeId/edit", async (req, res) => {
   try {
     const ingredients = await Ingredient.find({})
+    let uniqueIngredients = []
+    let ingredientScan = {}
+    ingredients.forEach((ingredient) => {
+      if (!ingredientScan[ingredient.name]) {
+        uniqueIngredients.push(ingredient._id)
+        ingredientScan[ingredient.name] = true
+      }
+  })
+  const allIngredients = await Ingredient.find({_id: uniqueIngredients})
     const recipe = await Recipe.findById(req.params.recipeId)
     res.render('recipes/edit.ejs', {
       recipe: recipe,
-      ingredients: ingredients,
+      ingredients: allIngredients,
     })
   } catch (err) {
     console.log(err)

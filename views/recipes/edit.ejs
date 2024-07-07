@@ -6,6 +6,7 @@
     <title><%= recipe.name %></title>
   </head>
   <body>
+    <%- include('../../partials/_navbar') %>
     <h1>Update <%= recipe.name %></h1>
     <form action="/recipes/<%= recipe._id %>?_method=PUT" method="POST" >
         <label for="name">Name</label>
@@ -26,22 +27,6 @@
         <button type="submit">Update Recipe</button>
         <br />
     </form>
-        <form action="/ingredients/edit" method="POST">
-          <label for="name">Name</label>
-          <input type="text" name="name" id="name" /> 
-          <br />
-          <button type="submit">Add Ingredient to Recipe</button>
-        </form>
-        <form action="/ingredients/edit?_method=DELETE" method="POST">
-          <div id="ingredients">
-            <select name="ingredients">
-              <% ingredients.forEach((ingredient) => { %>
-              <option name="ingredients" value="<%= ingredient.id %>" ><%= ingredient.name %></option>
-              <% }) %>
-            </select>
-          </div>
-          <br />
-          <button type="submit">Remove Ingredient from Recipe</button>
-        </form>
+      
   </body>
 </html>

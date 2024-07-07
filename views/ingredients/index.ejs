@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Recipe</title>
+  </head>
+  <body>
+    <%- include('../../partials/_navbar') %>
+    <h1>Welcome to Cookbook</h1>
+    <h3>Add Ingredient</h3>
+    <form action="/ingredients" method="POST">
+      <label for="name" ></label>
+      <input type="text" name="name" id="name"  /> 
+      <br />
+      <br />
+      <button type="submit">Add an Ingredient to the list!</button>
+    </form>
+    <br />
+
+    <div>
+    <h3>All ingredients:</h3>
+      <label for="ingredients"></label>
+      <ul name="ingredients">
+        <% ingredients.forEach((ingredient) => { %>
+        <li name="ingredients" value="<%= ingredient.id %>"><%= ingredient.name %></li>
+        <% }) %>
+        </ul>
+    </form>
+    <form action="/ingredients/edit?_method=DELETE" method="POST">
+        <div id="ingredients">
+          <select name="ingredients">
+            <% ingredients.forEach((ingredient) => { %>
+            <option name="ingredients" value="<%= ingredient.id %>" ><%= ingredient.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <br />
+        <button type="submit">Remove Ingredient from List</button>
+      </form>
+      <br />
+      <form>
+        <a href="/recipes/new"><h3>Create your recipe now!</h3></a>
+      </form>
+  </body>
+</html>

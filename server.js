@@ -33,7 +33,7 @@ app.use(
   })
 );
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   res.render('index.ejs', {
     user: req.session.user,
   });
